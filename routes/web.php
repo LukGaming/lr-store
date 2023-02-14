@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClientController;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -14,11 +15,15 @@ use App\Http\Controllers\UserController;
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('user', 'UserController@post');
+    $router->patch('user/{id}', 'UserController@update');
+    $router->delete('user/{id}', 'UserController@delete');
+    $router->get('user', 'UserController@get');
 });
 
-$router->post('user', 'UserController@store');
-$router->patch('user/{id}', 'UserController@update');
-$router->delete('user/{id}', 'UserController@delete');
-$router->get('user', 'UserController@get');
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('client', 'ClientController@post');
+    $router->get('client', 'ClientController@get');
+    $router->patch('client/{id}', 'ClientController@update');
+});
