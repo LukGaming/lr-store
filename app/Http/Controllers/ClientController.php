@@ -23,5 +23,11 @@ class ClientController extends Controller
         $client->update($request->all());
         return response()->json($client, 200);
     }
+    public function delete($id)
+    {
+        $client = Client::findOrFail($id);
+        $client->delete();
+        return response()->json("Cliente deletado com sucesso.", 200);
+    }
 
 }

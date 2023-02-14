@@ -26,4 +26,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('client', 'ClientController@post');
     $router->get('client', 'ClientController@get');
     $router->patch('client/{id}', 'ClientController@update');
+    $router->delete('client/{id}', 'ClientController@delete');
 });
