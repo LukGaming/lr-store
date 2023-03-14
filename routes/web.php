@@ -2,6 +2,9 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\ProductController;
+
+
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -37,5 +40,13 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->patch('manufacturer/{id}', 'ManufacturerController@update');
     $router->delete('manufacturer/{id}', 'ManufacturerController@delete');
     $router->get('manufacturer/{id}', 'ManufacturerController@getById');
+});
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('product', 'ProductController@post');
+    $router->get('product', 'ProductController@get');
+    $router->patch('product/{id}', 'ProductController@update');
+    $router->delete('product/{id}', 'ProductController@delete');
+     $router->get('product/{id}', 'ProductController@getById');
 });
 
