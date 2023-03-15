@@ -2,9 +2,9 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductController;
-
-
+use App\Http\Controllers\SalesController;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -20,17 +20,18 @@ use App\Http\Controllers\ProductController;
 */
 
 $router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('user', 'UserController@get');
     $router->post('user', 'UserController@post');
     $router->patch('user/{id}', 'UserController@update');
-    $router->delete('user/{id}', 'UserController@delete');
-    $router->get('user', 'UserController@get');
     $router->get('user/{id}', 'UserController@getById');
+    $router->delete('user/{id}', 'UserController@delete');
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('client', 'ClientController@post');
     $router->get('client', 'ClientController@get');
     $router->patch('client/{id}', 'ClientController@update');
+     $router->get('client/{id}', 'ClientController@getById');
     $router->delete('client/{id}', 'ClientController@delete');
 });
 
@@ -47,6 +48,27 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('product', 'ProductController@get');
     $router->patch('product/{id}', 'ProductController@update');
     $router->delete('product/{id}', 'ProductController@delete');
-     $router->get('product/{id}', 'ProductController@getById');
+    $router->get('product/{id}', 'ProductController@getById');
 });
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('payment-method', 'PaymentMethodController@post');
+    $router->get('payment-method', 'PaymentMethodController@get');
+    $router->patch('payment-method/{id}', 'PaymentMethodController@update');
+    $router->delete('payment-method/{id}', 'PaymentMethodController@delete');
+    $router->get('payment-method/{id}', 'PaymentMethodController@getById');
+});
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('sales', 'SalesController@post');
+    $router->get('sales', 'SalesController@get');
+    $router->patch('sales/{id}', 'SalesController@update');
+    $router->delete('sales/{id}', 'SalesController@delete');
+    $router->get('sales/{id}', 'SalesController@getById');
+});
+
+
+
+
+
 
