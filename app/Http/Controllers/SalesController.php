@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sales;
+use Exception;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -21,8 +22,10 @@ class SalesController extends Controller
 
     public function update($id, Request $request)
     {
+
         $sale = Sales::findOrFail($id);
         $sale->update($request->all());
+
         return response()->json($sale, 200);
     }
 

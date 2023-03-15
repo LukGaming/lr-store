@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InterestRatesController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductController;
@@ -68,6 +69,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 });
 
 
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('interest-rate', 'InterestRatesController@post');
+    $router->get('interest-rate', 'InterestRatesController@get');
+    $router->patch('interest-rate/{id}', 'InterestRatesController@update');
+    $router->delete('interest-rate/{id}', 'InterestRatesController@delete');
+    $router->get('interest-rate/{id}', 'InterestRatesController@getById');
+});
 
 
 
