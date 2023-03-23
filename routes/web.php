@@ -20,12 +20,14 @@ use App\Http\Controllers\SalesController;
 |
 */
 
+
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('user', 'UserController@get');
     $router->post('user', 'UserController@post');
     $router->patch('user/{id}', 'UserController@update');
     $router->get('user/{id}', 'UserController@getById');
     $router->delete('user/{id}', 'UserController@delete');
+    $router->post('user/authenticate', 'UserController@authenticate');
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {

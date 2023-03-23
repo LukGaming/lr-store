@@ -41,4 +41,24 @@ class UserController extends Controller
         }
         return response()->json($user);
     }
+    public function authenticate(Request $request){
+        $user = User::whereRaw('user_name = ? and password = ?',
+        [
+            $request["user_name"],
+            $request["password"]
+        ])->first();
+        if($user == null){
+            return response()->json([
+            "sucesso"=> false,
+            "mensagem"=> "Usuário ou senhas incorretos",
+            ], 200);
+        }
+        return response()->json([
+            "sucesso"=> true,
+            "mensagem"=> "Usuário logado com sucesso",
+            "user"=>$user
+        ], 200);
+
+
+    }
 }
