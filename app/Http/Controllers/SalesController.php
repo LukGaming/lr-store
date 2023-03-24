@@ -43,4 +43,22 @@ class SalesController extends Controller
         }
         return response()->json($sale);
     }
+    public function getAllSales(Request $request){
+        $sales = Sales::all();
+        $totalSales = 0;
+        foreach ($sales as $sale) {
+            $sale->product;
+            $sale->payment_method;
+            $sale->client;
+            $sale->user;
+            $totalSales += $sale->quantity * $sale->unity_value;
+        }
+
+        return response()->json([
+            "sucesso"=> true,
+            "mensagem"=>"vendas recuperadas com sucesso",
+            "vendas"=> $sales,
+            "valorTodalDeVendas"=> $totalSales
+        ]);
+    }
 }

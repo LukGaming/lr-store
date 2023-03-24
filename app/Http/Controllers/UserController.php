@@ -58,7 +58,5 @@ class UserController extends Controller
             "mensagem"=> "Usuário logado com sucesso",
             "user"=>$user
         ], 200);
-
-
     }
 }

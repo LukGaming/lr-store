@@ -68,6 +68,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->patch('sales/{id}', 'SalesController@update');
     $router->delete('sales/{id}', 'SalesController@delete');
     $router->get('sales/{id}', 'SalesController@getById');
+    $router->get('getAllSales', 'SalesController@getAllSales');
 });
 
 
