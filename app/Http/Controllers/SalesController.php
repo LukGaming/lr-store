@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Manufacturer;
 use App\Models\Sales;
 use Exception;
 use Illuminate\Http\Request;
@@ -48,6 +49,8 @@ class SalesController extends Controller
         $totalSales = 0;
         foreach ($sales as $sale) {
             $sale->product;
+
+            $sale->product->manufecturer =  Manufacturer::findOrFail($sale->product->manufacture_id);
             $sale->payment_method;
             $sale->client;
             $sale->user;
