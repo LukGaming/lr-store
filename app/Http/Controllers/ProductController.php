@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Manufacturer;
 use Illuminate\Http\Request;
 
 use App\Models\Product as ModelsProduct;
@@ -11,7 +12,11 @@ class ProductController extends Controller
 {
     public function get()
     {
-        return response()->json(ModelsProduct::all());
+        $products = ModelsProduct::all();
+        foreach ($products as $product) {
+            $product->manufecturer =  Manufacturer::findOrFail($product->manufacture_id);
+        }
+        return response()->json($products);
     }
 
 
