@@ -14,7 +14,7 @@ class ProductController extends Controller
     {
         $products = ModelsProduct::all();
         foreach ($products as $product) {
-            $product->manufecturer =  Manufacturer::findOrFail($product->manufacture_id);
+            $product->manufacturer =  Manufacturer::findOrFail($product->manufacture_id);
         }
         return response()->json($products);
     }
@@ -23,6 +23,7 @@ class ProductController extends Controller
     public function post(Request $request)
     {
         $product = ModelsProduct::create($request->all());
+        $product->manufacturer = Manufacturer::findOrFail($product->manufacture_id);
         return response()->json($product, 201);
     }
 
