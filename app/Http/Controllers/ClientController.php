@@ -19,12 +19,12 @@ class ClientController extends Controller
         if($client == null){
             return response()->json("Cliente não encontrado.", 404);
         }
-        return response()->json($client);
+        return response()->json($client, 200);
     }
 
     public function post(Request $request)
     {
-        return response()->json(Client::create($request->all()), 200);
+        return response()->json(Client::create($request->all()),  200);
     }
 
     public function update($id, Request $request)
