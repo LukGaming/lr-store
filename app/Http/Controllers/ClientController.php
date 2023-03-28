@@ -11,7 +11,7 @@ class ClientController extends Controller
 
     public function get()
     {
-        return response()->json(Client::all(), 201);
+        return response()->json(Client::all(), 200);
     }
 
     public function getById($id){
