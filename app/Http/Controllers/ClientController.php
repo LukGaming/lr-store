@@ -24,7 +24,8 @@ class ClientController extends Controller
 
     public function post(Request $request)
     {
-        return response()->json(Client::create($request->all()),  200);
+        // return $request->all();
+        return response()->json(Client::create($request->all()),  201);
     }
 
     public function update($id, Request $request)
