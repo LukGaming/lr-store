@@ -23,7 +23,10 @@ class ManufacturerController extends Controller
     public function update($id, Request $request)
     {
         $manufacture = ManufactureModel::findOrFail($id);
-        $manufacture->update($request->all());
+        // dd($request);
+        // dd($request);
+        $manufacture->manufacture_name = $request["manufacture_name"];
+        $manufacture->save();
         return response()->json($manufacture, 200);
     }
 

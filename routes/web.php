@@ -41,7 +41,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('manufacturer', 'ManufacturerController@get');
     $router->post('manufacturer', 'ManufacturerController@post');
-    $router->patch('manufacturer/{id}', 'ManufacturerController@update');
+    $router->put('manufacturer/{id}', 'ManufacturerController@update');
     $router->delete('manufacturer/{id}', 'ManufacturerController@delete');
     $router->get('manufacturer/{id}', 'ManufacturerController@getById');
 });

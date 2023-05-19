@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('serial_number');
             $table->string('quantity');
             $table->string('unity_value');
+            $table->string('sale_date');
+            $table->string('sale_type');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('client_id');

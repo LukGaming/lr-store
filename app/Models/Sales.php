@@ -17,7 +17,9 @@ class Sales extends Model
         'user_id',
         'client_id',
         'product_id',
-        'payment_method_id'
+        'payment_method_id',
+        'sale_date',
+        'sale_type',
     ];
     public function product(): BelongsTo
     {
