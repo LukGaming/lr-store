@@ -15,17 +15,12 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->string('serial_number');
-            $table->string('quantity');
-            $table->string('unity_value');
             $table->string('sale_date');
             $table->string('sale_type');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients');
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('payment_method_id');
             $table->foreign('payment_method_id')->references('id')->on('payment_methods');
             $table->timestamps();
