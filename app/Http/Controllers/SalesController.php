@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Manufacturer;
+use App\Models\PaymentMethod;
+use App\Models\Product;
 use App\Models\ProductSaleModel;
 use App\Models\Sales;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -12,22 +16,37 @@ class SalesController extends Controller
 {
     public function get()
     {
-        return response()->json(Sales::all());
+        $sales = Sales::all();
+        $salesData = [];
+        foreach ($sales as $sale) {
+            $sale->quantity = 0;
+            $sale->total_value = 0;
+            $sale->user = User::findOrFail($sale->user_id);
+            $sale->payment_method = PaymentMethod::findOrFail($sale->payment_method_id);
+            $sale->client = Client::findOrFail($sale->payment_method_id);
+            $productSales = ProductSaleModel::where('sale_id', $sale->id)->get();
+            foreach ($productSales as $productSale) {
+                $sale->total_value += $productSale->quantity * $productSale->unity_value;
+                $sale->quantity += $productSale->quantity;
+            }
+            $saleData = $sale->toArray();
+            $saleData['product_sales'] = $productSales->toArray();
+            $salesData[] = $saleData;
+        }
+        return response()->json(
+            [
+                'sales' => $salesData,
+            ],
+            200
+        );
     }
 
 
     public function post(Request $request)
     {
-        // Access the raw JSON data from the request body
         $jsonData = $request->getContent();
-
-        // Convert the JSON data to an associative array
         $requestData = json_decode($jsonData, true);
-
-        // Extract sale data
         $saleData = $requestData['sale'];
-
-        // Create a new sale instance
         $sale = Sales::create([
             'sale_date' => $saleData['sale_date'],
             'sale_type' => $saleData['sale_type'],
@@ -35,12 +54,8 @@ class SalesController extends Controller
             'client_id' => $saleData['client_id'],
             'payment_method_id' => $saleData['payment_method_id'],
         ]);
-
-        // Extract product_sales data
         $productSalesData = $requestData['product_sales'];
         $createdProductSales = [];
-
-        // Create product_sales and associate them with the sale
         foreach ($productSalesData as $productSaleData) {
             $productSale = ProductSaleModel::create([
                 'product_id' => $productSaleData['product_id'],
@@ -49,16 +64,14 @@ class SalesController extends Controller
                 'quantity' => $productSaleData['quantity'],
                 'sale_id' => $sale->id
             ]);
-
-            // Add the created product_sale to the array
             $createdProductSales[] = $productSale;
         }
 
         $sale["product_sales"] = $createdProductSales;
-            return response()->json([
-                'sale' => $sale,
-            ], 201);
-        }
+        return response()->json([
+            'sale' => $sale,
+        ], 201);
+    }
     public function update($id, Request $request)
     {
 
@@ -75,31 +88,12 @@ class SalesController extends Controller
         return response()->json("Venda deletada com sucesso.", 200);
     }
 
-    public function getById($id){
+    public function getById($id)
+    {
         $sale = Sales::find($id);
-        if($sale == null){
+        if ($sale == null) {
             return response()->json("Venda não encontrado.", 404);
         }
         return response()->json($sale);
-    }
-    public function getAllSales(Request $request){
-        $sales = Sales::all();
-        $totalSales = 0;
-        foreach ($sales as $sale) {
-            $sale->product;
-
-            $sale->product->manufecturer =  Manufacturer::findOrFail($sale->product->manufacture_id);
-            $sale->payment_method;
-            $sale->client;
-            $sale->user;
-            $totalSales += $sale->quantity * $sale->unity_value;
-        }
-
-        return response()->json([
-            "sucesso"=> true,
-            "mensagem"=>"vendas recuperadas com sucesso",
-            "vendas"=> $sales,
-            "valorTodalDeVendas"=> $totalSales
-        ]);
     }
 }
