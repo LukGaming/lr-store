@@ -44,33 +44,36 @@ class SalesController extends Controller
 
     public function post(Request $request)
     {
-        $jsonData = $request->getContent();
-        $requestData = json_decode($jsonData, true);
-        $saleData = $requestData['sale'];
+        $requestData = $request->json()->all();
+
         $sale = Sales::create([
-            'sale_date' => $saleData['sale_date'],
-            'sale_type' => $saleData['sale_type'],
-            'user_id' => $saleData['user_id'],
-            'client_id' => $saleData['client_id'],
-            'payment_method_id' => $saleData['payment_method_id'],
+            'sale_date' => $requestData['saleDate'],
+            'sale_type' => $requestData['selectedSalesType'],
+            'user_id' => $requestData['userId'],
+            'client_id' => $requestData['selectedClient']['id'],
+            'payment_method_id' => $requestData['selectedPaymentMethod'],
         ]);
-        $productSalesData = $requestData['product_sales'];
+
         $createdProductSales = [];
-        foreach ($productSalesData as $productSaleData) {
+        foreach ($requestData['products'] as $productData) {
             $productSale = ProductSaleModel::create([
-                'product_id' => $productSaleData['product_id'],
-                'serial_numbers' => json_encode($productSaleData['serial_numbers']),
-                'unity_value' => $productSaleData['unity_value'],
-                'quantity' => $productSaleData['quantity'],
+                'product_id' => $productData['selectedProduct']['id'],
+                'serial_numbers' => json_encode($productData['serialNumbers']),
+                'unity_value' => $productData['unityValue'],
+                'quantity' => $productData['quantity'],
                 'sale_id' => $sale->id
             ]);
             $createdProductSales[] = $productSale;
         }
 
         $sale["product_sales"] = $createdProductSales;
-        return response()->json([
-            'sale' => $sale,
-        ], 201);
+
+        return response()->json(
+            [
+                'sale' => $sale,
+            ],
+            201
+        );
     }
     public function update($id, Request $request)
     {

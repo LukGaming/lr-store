@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InterestRatesController;
@@ -31,10 +32,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('credit', 'CreditController@post');
+    $router->get('credit', 'CreditController@getAll');
+    $router->patch('credit/{id}', 'CreditController@update');
+    $router->get('credit/{id}', 'CreditController@getById');
+    $router->delete('credit/{id}', 'CreditController@delete');
+});
+
+$router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('client', 'ClientController@post');
     $router->get('client', 'ClientController@get');
     $router->patch('client/{id}', 'ClientController@update');
-     $router->get('client/{id}', 'ClientController@getById');
+    $router->get('client/{id}', 'ClientController@getById');
     $router->delete('client/{id}', 'ClientController@delete');
 });
 
@@ -80,7 +89,3 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->delete('interest-rate/{id}', 'InterestRatesController@delete');
     $router->get('interest-rate/{id}', 'InterestRatesController@getById');
 });
-
-
-
-
