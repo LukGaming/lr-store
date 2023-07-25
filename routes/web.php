@@ -7,6 +7,7 @@ use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\DebitController;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -29,6 +30,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('user/{id}', 'UserController@getById');
     $router->delete('user/{id}', 'UserController@delete');
     $router->post('user/authenticate', 'UserController@authenticate');
+});
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('debit', 'DebitController@post');
+    $router->get('debit', 'DebitController@getAll');
+    $router->patch('debit/{id}', 'DebitController@update');
+    $router->get('debit/{id}', 'DebitController@getById');
+    $router->delete('debit/{id}', 'DebitController@delete');
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
