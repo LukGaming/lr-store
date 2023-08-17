@@ -15,7 +15,7 @@ class Sales extends Model
         'sale_type',
         'user_id',
         'client_id',
-        'payment_method_id',
+        'payment_method',
     ];
 
     public function productSales(): HasMany
@@ -33,8 +33,10 @@ class Sales extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function paymentMethod(): BelongsTo
+
+
+    public function creditTables()
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->belongsToMany(CreditTable::class, 'sale_credit_table');
     }
 }

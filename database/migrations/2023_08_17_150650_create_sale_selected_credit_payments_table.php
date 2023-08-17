@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('credit_table', function (Blueprint $table) {
+        Schema::create('sale_selected_credit_payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('installments_quantity');
-            $table->decimal('installment_percentage', 8, 2);
+            $table->unsignedBigInteger('sale_id');
+            $table->unsignedBigInteger('credit_table_id');
             $table->timestamps();
+            $table->foreign('sale_id')->references('id')->on('sales');
+            $table->foreign('credit_table_id')->references('id')->on('credit_table');
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('credit_table');
+        Schema::dropIfExists('sale_selected_credit_payments');
     }
 };
